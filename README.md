@@ -1,4 +1,4 @@
-# Phone Cart
+# Phone Shop
 
 ### Phone shopping cart app using:
 
