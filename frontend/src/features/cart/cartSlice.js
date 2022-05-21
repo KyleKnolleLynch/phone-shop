@@ -44,27 +44,29 @@ const cartSlice = createSlice({
       })
     },
     decrementCart(state, action) {
-      const itemIndex = state.cartItems.findIndex(item => item.id === action.payload.id)
+      const itemIndex = state.cartItems.findIndex(
+        item => item.id === action.payload.id
+      )
 
       if (state.cartItems[itemIndex].cartQty > 1) {
         state.cartItems[itemIndex].cartQty--
 
-        toast.info(`Decreased ${action.payload.name} quantity`, {
+        toast.info(`${action.payload.name} quantity decreased`, {
           position: 'bottom-left',
         })
       } else if (state.cartItems[itemIndex].cartQty === 1) {
         const filteredCart = state.cartItems.filter(
           item => item.id !== action.payload.id
         )
-  
+
         state.cartItems = filteredCart
         localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-  
+
         toast.error(`${action.payload.name} deleted from cart`, {
           position: 'bottom-left',
         })
       }
-    }
+    },
   },
 })
 
