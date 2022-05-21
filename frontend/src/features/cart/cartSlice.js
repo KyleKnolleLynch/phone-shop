@@ -30,10 +30,44 @@ const cartSlice = createSlice({
       }
 
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-    }, 
+    },
+    deleteFromCart(state, action) {
+      const filteredCart = state.cartItems.filter(
+        item => item.id !== action.payload.id
+      )
+
+      state.cartItems = filteredCart
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+
+      toast.error(`${action.payload.name} deleted from cart`, {
+        position: 'bottom-left',
+      })
+    },
+    decrementCart(state, action) {
+      const itemIndex = state.cartItems.findIndex(item => item.id === action.payload.id)
+
+      if (state.cartItems[itemIndex].cartQty > 1) {
+        state.cartItems[itemIndex].cartQty--
+
+        toast.info(`Decreased ${action.payload.name} quantity`, {
+          position: 'bottom-left',
+        })
+      } else if (state.cartItems[itemIndex].cartQty === 1) {
+        const filteredCart = state.cartItems.filter(
+          item => item.id !== action.payload.id
+        )
+  
+        state.cartItems = filteredCart
+        localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+  
+        toast.error(`${action.payload.name} deleted from cart`, {
+          position: 'bottom-left',
+        })
+      }
+    }
   },
 })
 
-export const { addToCart } = cartSlice.actions
+export const { addToCart, deleteFromCart, decrementCart } = cartSlice.actions
 
 export default cartSlice.reducer
